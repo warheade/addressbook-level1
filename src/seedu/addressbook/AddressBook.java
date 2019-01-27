@@ -183,6 +183,7 @@ public class AddressBook {
      */
     private static final ArrayList<String[]> ALL_PERSONS = new ArrayList<>();
 
+
     /**
      * Stores the most recent list of persons shown to the user as a result of a user command.
      * This is a subset of the full list. Deleting persons in the pull list does not delete
@@ -365,6 +366,7 @@ public class AddressBook {
      * @return  feedback about how the command was executed
      */
     private static String executeCommand(String userInputString) {
+        private static int NumberOfPeople = 0;
         final String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
         final String commandType = commandTypeAndParams[0];
         final String commandArgs = commandTypeAndParams[1];
@@ -379,6 +381,8 @@ public class AddressBook {
             return executeDeletePerson(commandArgs);
         case COMMAND_CLEAR_WORD:
             return executeClearAddressBook();
+        case COMMAND_PRINT_NUMBER;
+            return executePrintNumber();
         case COMMAND_HELP_WORD:
             return getUsageInfoForAllCommands();
         case COMMAND_EXIT_WORD:
@@ -415,6 +419,12 @@ public class AddressBook {
      * @param commandArgs full command args string from the user
      * @return feedback display message for the operation result
      */
+    private static String executePrintNumber(){
+        String myString = Integer.toString(countPersonInAddressBook());
+        System.out.println(myString);
+        return myString;
+    }
+
     private static String executeAddPerson(String commandArgs) {
         // try decoding a person from the raw args
         final Optional<String[]> decodeResult = decodePersonFromString(commandArgs);
@@ -785,6 +795,10 @@ public class AddressBook {
     private static void addPersonToAddressBook(String[] person) {
         ALL_PERSONS.add(person);
         savePersonsToFile(getAllPersonsInAddressBook(), storageFilePath);
+    }
+
+    private static int countPersonInAddressBook (){
+        return ALL_PERSONS.size();
     }
 
     /**
